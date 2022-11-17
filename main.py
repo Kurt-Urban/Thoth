@@ -35,6 +35,7 @@ class Game:
         self.last_pipe = pygame.time.get_ticks() - self.pipe_frequency
         self.score = 0
         self.pass_pipe = False
+        self.dist_to_pipe = 0
 
         # Initialise groups
         self.bird_group = pygame.sprite.Group()
@@ -46,6 +47,14 @@ class Game:
             self.screen_height // 2 - 100,
             "imgs/restart.png",
         )
+
+    def reset(self):
+        self.pipe_group.empty()
+        self.flappy.rect.x = 100
+        self.flappy.rect.y = self.screen_height / 2
+        self.score = 0
+        self.game_over = False
+        self.flying = True
 
     def draw_text(self, text, text_col, x, y):
         img = self.font.render(text, True, text_col)
@@ -73,6 +82,12 @@ class Game:
             self.screen.blit(self.ground_img, (self.ground_scroll, 500))
 
             if len(self.pipe_group) > 0:
+                # Set the distance to the next pipe
+                pipe_top_left = self.pipe_group.sprites()[0].rect.topleft
+                self.dist_to_pipe = pygame.math.Vector2(pipe_top_left).distance_to(
+                    self.flappy.rect.bottomright
+                )
+                # Check if the bird has passed the pipe
                 if (
                     self.bird_group.sprites()[0].rect.left
                     > self.pipe_group.sprites()[0].rect.left
@@ -128,12 +143,7 @@ class Game:
 
             if self.game_over == True:
                 if self.button.draw(self.screen) == True:
-                    self.pipe_group.empty()
-                    self.flappy.rect.x = 100
-                    self.flappy.rect.y = self.screen_height / 2
-                    self.score = 0
-                    self.game_over = False
-                    self.flying = True
+                    self.reset()
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
