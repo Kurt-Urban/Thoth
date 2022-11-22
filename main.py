@@ -21,7 +21,7 @@ def init_env():
         score += reward
         print(f"Obs: {obs}\n" f"Action: {action}\n" f"Score: {score}\n")
 
-        time.sleep(1 / 30)
+        time.sleep(1 / 64)
 
         if terminated:
             env.render()

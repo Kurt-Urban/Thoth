@@ -13,7 +13,7 @@ class FlappyBirdEnv(gym.Env):
 
         self.action_space = spaces.Discrete(2)
         self.observation_space = spaces.Box(
-            low=-np.inf, high=np.inf, shape=(2,), dtype=np.float32
+            low=-np.inf, high=np.inf, shape=(3,), dtype=np.float64
         )
 
         assert render_mode is None or render_mode in self.metadata["render_modes"]
@@ -25,10 +25,10 @@ class FlappyBirdEnv(gym.Env):
 
     def _get_obs(self):
         player = self.game.flappy
-        player_height = 500 - player.rect.bottom
+        player_height = float(500 - player.rect.bottom)
 
-        dist_top_pipe = self.game.dist_top_pipe
-        dist_btm_pipe = self.game.dist_btm_pipe
+        dist_top_pipe = float(self.game.dist_top_pipe)
+        dist_btm_pipe = float(self.game.dist_btm_pipe)
         return np.array([dist_top_pipe, dist_btm_pipe, player_height])
 
     def step(self, action):
