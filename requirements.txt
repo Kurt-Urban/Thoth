@@ -1,0 +1,6 @@
+cloudpickle==2.2.0
+Gymnasium==0.26.3
+gymnasium-notices==0.0.1
+importlib-metadata==5.0.0
+numpy==1.23.5
+zipp==3.10.0
