@@ -16,14 +16,14 @@ def init_env():
         if env.game.flying == False and env.game.game_over == False:
             action = 1
 
-        obs, reward, done, _ = env.step(action)
+        obs, reward, terminated, _, _ = env.step(action)
 
         score += reward
         print(f"Obs: {obs}\n" f"Action: {action}\n" f"Score: {score}\n")
 
         time.sleep(1 / 30)
 
-        if done:
+        if terminated:
             env.render()
             time.sleep(0.5)
             break

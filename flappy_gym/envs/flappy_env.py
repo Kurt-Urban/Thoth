@@ -29,22 +29,19 @@ class FlappyBirdEnv(gym.Env):
 
         dist_top_pipe = self.game.dist_top_pipe
         dist_btm_pipe = self.game.dist_btm_pipe
-
         return np.array([dist_top_pipe, dist_btm_pipe, player_height])
 
     def step(self, action):
         obs = self._get_obs()
+        print(obs)
 
         alive = self.game.update(action)
 
         reward = 1
-        done = alive
+        terminated = alive
         info = {"score": self.game.score}
 
-        if self.render_mode == "human":
-            self._render_frame()
-
-        return obs, reward, done, info
+        return obs, reward, terminated, False, info
 
     def reset(self):
         self.game = Game()
