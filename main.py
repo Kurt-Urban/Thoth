@@ -4,29 +4,30 @@ import flappy_gym
 
 
 def init_env():
-    env = flappy_gym.make("FlappyBird")
-    env.reset()
-    score = 0
+    step = 0
+    episode = 1
 
-    while True:
-        env.render()
+    env = flappy_gym.make("FlappyBird", render_mode="human")
+    env.reset()
+    env.action_space.seed(seed=42)
+
+    while episode < 200:
 
         action = env.action_space.sample()
 
-        if env.game.flying == False and env.game.game_over == False:
-            action = 1
+        _, _, terminated, _, _ = env.step(action)
 
-        obs, reward, terminated, _, _ = env.step(action)
+        step += 1
+        print(f"Episode: {episode}\n" f"Action: {action}\n" f"Step: {step}\n")
 
-        score += reward
-        print(f"Obs: {obs}\n" f"Action: {action}\n" f"Score: {score}\n")
-
-        time.sleep(1 / 30)
+        time.sleep(1 / 60)
 
         if terminated:
-            env.render()
-            time.sleep(0.5)
-            break
+            env.reset()
+            episode += 1
+            step = 0
+
+    env.close()
 
 
 init_env()

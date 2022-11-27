@@ -32,13 +32,21 @@ class FlappyBirdEnv(gym.Env):
         return np.array([dist_top_pipe, dist_btm_pipe, player_height])
 
     def step(self, action):
-        obs = self._get_obs()
-        print(obs)
+        self.game.game_logic(action)
 
-        alive = self.game.update(action)
+        obs = self._get_obs()
+
+        done = self.game.game_over
 
         reward = 1
-        terminated = alive
+
+        if obs[2] < 75 or obs[2] > 425:
+            reward = 0
+
+        if done:
+            reward = -100
+
+        terminated = done
         info = {"score": self.game.score}
 
         return obs, reward, terminated, False, info
@@ -53,9 +61,3 @@ class FlappyBirdEnv(gym.Env):
         info = {"score": self.game.score}
 
         return observation, info
-
-    def render(self, mode="human"):
-        if mode == "human":
-            self.game.game_logic()
-        elif mode == "rgb_array":
-            return self.game.game_logic()
