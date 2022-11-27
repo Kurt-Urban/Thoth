@@ -21,7 +21,7 @@ class FlappyBirdEnv(gym.Env):
 
         self.window = None
         self.clock = None
-        self.game = None
+        self.game = Game()
 
     def _get_obs(self):
         player = self.game.flappy
@@ -51,11 +51,10 @@ class FlappyBirdEnv(gym.Env):
 
         return obs, reward, terminated, False, info
 
-    def reset(self):
-        self.game = Game()
+    def reset(self, seed):
+        super().reset(seed=seed)
 
-        if self.game.game_over:
-            self.game.reset()
+        self.game.reset()
 
         observation = self._get_obs()
         info = {"score": self.game.score}

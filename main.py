@@ -6,12 +6,13 @@ import flappy_gym
 def init_env():
     step = 0
     episode = 1
+    seed = 42
 
     env = flappy_gym.make("FlappyBird", render_mode="human")
-    env.reset()
-    env.action_space.seed(seed=42)
+    env.reset(seed=seed)
+    env.action_space.seed(seed=seed)
 
-    while episode < 200:
+    while episode < 2000:
 
         action = env.action_space.sample()
 
@@ -23,7 +24,7 @@ def init_env():
         time.sleep(1 / 60)
 
         if terminated:
-            env.reset()
+            env.reset(seed=seed)
             episode += 1
             step = 0
 
