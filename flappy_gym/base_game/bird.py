@@ -27,15 +27,16 @@ class Bird(pygame.sprite.Sprite):
                     self.rect.y += int(self.vel)
         if game_over == False:
             # Jump
-            if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
+            if (
+                pygame.mouse.get_pressed()[0] == 1
+                or action == 1
+                and self.clicked == False
+            ):
                 self.clicked = True
                 self.vel = -10
 
             if pygame.mouse.get_pressed()[0] == 0 or action == 0:
                 self.clicked = False
-
-            if action == 1:
-                self.vel = -10
 
             # Rotate
             self.image = pygame.transform.rotate(img, self.vel * -2)

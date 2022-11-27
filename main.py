@@ -2,6 +2,8 @@ import time
 
 import flappy_gym
 
+from gymnasium.utils.env_checker import check_env
+
 
 def init_env():
     step = 0
@@ -11,6 +13,8 @@ def init_env():
     env = flappy_gym.make("FlappyBird", render_mode="human")
     env.reset(seed=seed)
     env.action_space.seed(seed=seed)
+
+    check_env(env)
 
     while episode < 2000:
 

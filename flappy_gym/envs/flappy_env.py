@@ -1,6 +1,7 @@
 import gymnasium as gym
 from gymnasium import spaces
 import numpy as np
+import pygame
 
 from flappy_gym.base_game import Game
 
@@ -51,12 +52,24 @@ class FlappyBirdEnv(gym.Env):
 
         return obs, reward, terminated, False, info
 
-    def reset(self, seed):
+    def reset(self, seed=None, options=None):
         super().reset(seed=seed)
 
         self.game.reset()
 
-        observation = self._get_obs()
+        obs = self._get_obs()
         info = {"score": self.game.score}
 
-        return observation, info
+        return obs, info
+
+    def render(self):
+        if self.render_mode == "rgb_array":
+            return self._render_frame()
+
+    def _render_frame(self):
+        return None
+
+    def close(self):
+        if self.window is not None:
+            pygame.display.quit()
+            pygame.quit()
