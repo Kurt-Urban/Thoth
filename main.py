@@ -28,12 +28,12 @@ def init_env():
 
     check_env(env)
 
-    while episode < 200:
+    while episode <= 200:
 
         if random.uniform(0, 1) < epsilon:
-            action = env.action_space.sample()  # Explore action space
+            action = env.action_space.sample()
         else:
-            action = np.argmax(q_table[state])  # Exploit learned values
+            action = np.argmax(q_table[state])
 
         next_state, reward, terminated, _, _ = env.step(action)
 

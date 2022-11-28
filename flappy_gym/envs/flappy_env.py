@@ -47,9 +47,6 @@ class FlappyBirdEnv(gym.Env):
         if terminated:
             reward = -1
 
-        if action == 1:
-            reward = 0
-
         info = {"score": self.game.score}
 
         return obs, reward, terminated, False, info
