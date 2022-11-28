@@ -12,7 +12,7 @@ class FlappyBirdEnv(gym.Env):
     def __init__(self, render_mode="human"):
         self.window_size = (880, 604)
 
-        self.action_space = spaces.Discrete(2)
+        self.action_space = spaces.Discrete(2, start=0)
         self.observation_space = spaces.Box(
             low=-np.inf, high=np.inf, shape=(3,), dtype=np.int64
         )
@@ -46,6 +46,9 @@ class FlappyBirdEnv(gym.Env):
 
         if terminated:
             reward = -1
+
+        if action == 1:
+            reward = 0
 
         info = {"score": self.game.score}
 
