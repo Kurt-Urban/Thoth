@@ -42,13 +42,13 @@ class FlappyBirdEnv(gym.Env):
         reward = 0.1
 
         if self.game.pass_pipe == True:
-            reward += 10
+            reward += 1
 
         if int(obs[2]) < 75 or int(obs[2]) > 425:
-            reward = -1
+            reward = -0.1
 
         if terminated:
-            reward = -10
+            reward = -1
 
         info = {"score": self.game.score}
 
