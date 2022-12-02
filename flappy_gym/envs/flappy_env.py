@@ -26,9 +26,9 @@ class FlappyBirdEnv(gym.Env):
 
     def _get_obs(self):
         player = self.game.flappy
-        player_height = int(500 - player.rect.bottom)
+        player_height = int((500 - player.rect.bottom) / 10)
 
-        dist_btm_pipe = int(self.game.dist_btm_pipe)
+        dist_btm_pipe = int(self.game.dist_btm_pipe / 10)
         return np.array([dist_btm_pipe, player_height])
 
     def step(self, action):
@@ -38,10 +38,10 @@ class FlappyBirdEnv(gym.Env):
 
         terminated = self.game.game_over
 
-        reward = 0.05
+        reward = 0.1
 
-        if int(obs[1]) < 75 or int(obs[1]) > 425:
-            reward = -0.5
+        if int(obs[1]) < 7.5 or int(obs[1]) > 42.5:
+            reward = -0.1
 
         if terminated:
             reward = -10

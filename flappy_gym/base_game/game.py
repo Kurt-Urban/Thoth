@@ -30,7 +30,7 @@ class Game:
         self.scroll_speed = 4
         self.flying = True
         self.game_over = False
-        self.pipe_gap = 80
+        self.pipe_gap = 100
         self.pipe_frequency = 1250
         self.last_pipe = pygame.time.get_ticks() - self.pipe_frequency
         self.score = 0
