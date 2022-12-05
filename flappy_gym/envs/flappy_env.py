@@ -13,9 +13,7 @@ class FlappyBirdEnv(gym.Env):
         self.window_size = (880, 604)
 
         self.action_space = spaces.Discrete(2, start=0)
-        self.observation_space = spaces.Box(
-            low=-np.inf, high=np.inf, shape=(2,), dtype=np.int64
-        )
+        self.observation_space = spaces.Discrete(49, start=0)
 
         assert render_mode is None or render_mode in self.metadata["render_modes"]
         self.render_mode = render_mode
@@ -26,10 +24,15 @@ class FlappyBirdEnv(gym.Env):
 
     def _get_obs(self):
         player = self.game.flappy
-        player_height = int((500 - player.rect.bottom) / 10)
+        player_height = int((500 - player.rect.bottom) / 100)
 
-        dist_btm_pipe = int(self.game.dist_btm_pipe / 10)
-        return np.array([dist_btm_pipe, player_height])
+        btm_pipe_height = int(self.game.btm_pipe_height / 100)
+        rel_player_height = player_height - btm_pipe_height
+
+        dist_btm_pipe = int(self.game.dist_btm_pipe / 100)
+
+        obs = (rel_player_height * 10) + dist_btm_pipe
+        return obs
 
     def step(self, action):
         self.game.game_logic(action)
@@ -38,10 +41,7 @@ class FlappyBirdEnv(gym.Env):
 
         terminated = self.game.game_over
 
-        reward = 0.1
-
-        if int(obs[1]) < 7.5 or int(obs[1]) > 42.5:
-            reward = -0.1
+        reward = 1
 
         if terminated:
             reward = -10

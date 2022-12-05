@@ -37,6 +37,7 @@ class Game:
         self.pass_pipe = False
         self.dist_top_pipe = 0
         self.dist_btm_pipe = 0
+        self.btm_pipe_height = 0
 
         # Initialise groups
         self.bird_group = pygame.sprite.Group()
@@ -82,14 +83,11 @@ class Game:
 
         if len(self.pipe_group) > 0:
             # Set the distance to the next pipe
-            pipe_top_left = self.pipe_group.sprites()[0].rect.topleft
-            self.dist_btm_pipe = pygame.math.Vector2(pipe_top_left).distance_to(
-                self.flappy.rect.center
+            self.dist_btm_pipe = (
+                self.pipe_group.sprites()[0].rect.x - self.flappy.rect.x
             )
-            pipe_bottom_left = self.pipe_group.sprites()[1].rect.bottomleft
-            self.dist_top_pipe = pygame.math.Vector2(pipe_bottom_left).distance_to(
-                self.flappy.rect.center
-            )
+
+            self.btm_pipe_top = self.pipe_group.sprites()[0].rect.top
             # Check if the bird has passed the pipe
             if (
                 self.bird_group.sprites()[0].rect.left
